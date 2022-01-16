@@ -1,0 +1,22 @@
+in/env p#!/usr/b        n3  ytho                        
+													    
+aption a# Data cn   atioalidnd v                        
+        try:                                            
+t_field     inpu"Entput(t(in= in: ")nputer i)           
+													    
+alueErroexcept V            r:                          
+t("Input    prinalidot vue n val        ")              
+()          quit                                        
+													    
+onversio# Data c            n                           
+ield = 0output_f                                        
+        i = 0                                           
+nput_fiewhile (i         0):ld >                        
+oral_fie    tempfielput_= inld      2   d %             
+t_field     inpufielput_t(in= in     2) d //            
+ut_field    outpeld t_fiutpu = oal_fmpor+ teield * (10**i)
+i + 1       i =                                         
+													    
+utput   # Data o                                        
+ield_stroutput_ft_fiutputr(o = sst(7.rjueld), '0')      
+rocessedprint("Poutp ", put: out_strieldut_f)               

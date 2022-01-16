@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+
+
+table {
+	border: none;
+	border-collapse: collapse;
+	width:100%;
+}
+
+tr {
+    display: table-row;
+	border: none;
+	border-collapse: collapse;
+}
+
+td {
+	margin:0px
+	padding:0px
+	border: none;
+	border-collapse: collapse;
+}
+
+
+</style>
+
+<script> 
+
+function componentToHex(c) {
+  var hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b) {
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+function renderOnOutput(textarea){
+	  
+	var image = new Image();
+	image.src = 'data:image/png;base64,'+textarea.value; //se crea imagen con el base64 enviado
+	
+	image.onload = function () { //Cuando la imágen carga
+			
+		var canvas = document.createElement("canvas");
+		document.getElementById("output").appendChild(canvas);
+		
+		canvas.width  = image.width;
+		canvas.height = image.height;
+			
+		var context = canvas.getContext("2d");
+		context.drawImage(image, 0, 0);
+		
+		
+		var body = document.getElementsByTagName('body')[0];
+		var tbl = document.createElement('table');
+		tbl.border="0px none";
+		var tbdy = document.createElement('tbody');
+		
+		//For dentro de for, uno recorre pixeles uno por uno y obtiene su color
+		for(var Y=0 ; Y<image.width ; Y++){ 
+		
+			var tr = document.createElement('tr'); //por cada pixel de alto se añade una nueva fila
+		
+			for(var X=0 ; X<image.width ; X++){
+		
+				var colors = context.getImageData(X, Y , 1, 1).data;
+						
+				//background-color:rgb(255,130,255);
+				
+				var td = document.createElement('td');
+				
+				td.style.backgroundColor = rgbToHex(colors[0],colors[1], colors[2]);
+				tr.appendChild(td);	
+		
+			}
+		
+			tbdy.appendChild(tr);
+		}
+		tbl.style.width = image.width+"px";
+		tbl.style.height = image.height+"px";
+		tbl.appendChild(tbdy);
+		body.appendChild(tbl);
+		
+
+		
+		
+	}
+}
+
+</script>
+
+
+
+<body>
+
+<div id="output"></div>
+
+<textarea id="input" onchange="renderOnOutput(this)" placeholder="base64 image code" style="width:1500px" rows="7"></textarea>
+
+
+
+
+
+
+
+
+</body>
+</html>
