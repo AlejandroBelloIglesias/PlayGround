@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Vue with CDN</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <h1>{{ title}} </h1>
+        
+        <ul>
+            <li v-for="fruit of fruits">
+                {{ fruit.name }} - 
+                <span v-if="fruit.price == 0">
+                    <b>Free!</b>
+                </span>
+                <span v-else>
+                    {{ fruit.price }}
+                </span>
+                    
+
+            </li>
+        </ul>
+
+        <input type="text" placeholder="Input your fruit here" v-model="tempFruit"/>
+        <button v-on:click="addFruit">Add fruit</button>
+        
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
