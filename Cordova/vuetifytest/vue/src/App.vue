@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <!--NAVBAR-->
-     <navbar/>
+    <navbar />
 
     <!--MAIN CONTENT-->
     <v-main>
@@ -9,23 +9,32 @@
     </v-main>
 
     <!--FOOTER-->
-    <footercomponent/>
-
+    <footercomponent />
   </v-app>
 </template>
 
 <script>
-
-import navbar from './components/NavBarComponent.vue'
-import footercomponent from './components/FooterComponent.vue'
+import navbar from "./components/NavBarComponent.vue";
+import footercomponent from "./components/FooterComponent.vue";
 
 export default {
   name: "App",
   components: {
     navbar,
-    footercomponent
+    footercomponent,
   },
 };
 </script>
 <style>
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+@media only screen and (hover: none) and (pointer: coarse){
+  ::-webkit-scrollbar { 
+      display: none; 
+  }
+}
+
 </style>

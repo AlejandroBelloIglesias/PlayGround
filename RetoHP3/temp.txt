@@ -1,9 +1,0 @@
-#output_field_str = u'7.0j', str(output_field)# str( )  (No sabíamos dónde meterlo)
-
-
-#output_field_str = str( output_field str(7.ju), '0')
-
-
-# Deducimos que la línea original pretendía algo como esto 
-# pero no encontramos la forma correcta de ordenarlo
-#output_field_str = str(output_field).zfill(7) 
