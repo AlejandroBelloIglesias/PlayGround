@@ -1,112 +1,117 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-import React from 'react';
-import type {Node} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
   useColorScheme,
   View,
 } from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const Section = ({children, title}): Node => {
+import { ToDoItemComponent } from './src/components/ToDoItem';
+import { getDBConnection, getTodoItems, saveTodoItems, createTable, deleteTodoItem } from './src/services/db';
+const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  const [todos, setTodos] = useState([]);
+  const [newTodo, setNewTodo] = useState('');
+  const loadDataCallback = useCallback(async () => {
+    try {
+      const initTodos = [{ id: 0, value: 'go to shop' }, { id: 1, value: 'eat at least a one healthy foods' }, { id: 2, value: 'Do some exercises' }];
+      const db = await getDBConnection();
+      const storedTodoItems = await getTodoItems(db);
+      if (storedTodoItems.length) {
+        setTodos(storedTodoItems);
+      } else {
+        await saveTodoItems(db, initTodos);
+        setTodos(initTodos);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+  useEffect(() => {
+    loadDataCallback();
+  }, [loadDataCallback]);
+  const addTodo = async () => {
+    if (!newTodo.trim()) return;
+    try {
+      const newTodos = [...todos, {
+        id: todos.length ? todos.reduce((acc, cur) => {
+          if (cur.id > acc.id) return cur;
+          return acc;
+        }).id + 1 : 0, value: newTodo
+      }];
+      setTodos(newTodos);
+      const db = await getDBConnection();
+      await saveTodoItems(db, newTodos);
+      setNewTodo('');
+    } catch (error) {
+      console.error(error);
+    }
   };
-
+  const deleteItem = async (id) => {
+    try {
+      const db = await getDBConnection();
+      await deleteTodoItem(db, id);
+      todos.splice(id, 1);
+      setTodos(todos.slice(0));
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <SafeAreaView>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+        contentInsetAdjustmentBehavior="automatic">
+        <View style={[styles.appTitleView]}>
+          <Text style={styles.appTitleText}> ToDo Application </Text>
+        </View>
+        <View>
+          {todos.map((todo) => (
+            <ToDoItemComponent key={todo.id} todo={todo} deleteItem={deleteItem} />
+          ))}
+        </View>
+        <View style={styles.textInputContainer}>
+          <TextInput style={styles.textInput} value={newTodo} onChangeText={text => setNewTodo(text)} />
+          <Button
+            onPress={addTodo}
+            title="Add ToDo"
+            color="#841584"
+            accessibilityLabel="add todo item"
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
-
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  appTitleView: {
+    marginTop: 20,
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
-  sectionTitle: {
+  appTitleText: {
     fontSize: 24,
-    fontWeight: '600',
+    fontWeight: '800'
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  textInputContainer: {
+    marginTop: 30,
+    marginLeft: 20,
+    marginRight: 20,
+    borderRadius: 10,
+    borderColor: 'black',
+    borderWidth: 1,
+    justifyContent: 'flex-end'
   },
-  highlight: {
-    fontWeight: '700',
+  textInput: {
+    borderWidth: 1,
+    borderRadius: 5,
+    height: 30,
+    margin: 10,
+    backgroundColor: 'pink'
   },
 });
-
 export default App;

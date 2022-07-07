@@ -1,7 +1,9 @@
 ## Crear un proyecto
 ```bash
-npx react-native init AwesomeProject  
+npx react-native init AwesomeProject  --version 0.68
 ```
+
+Uso la versión 0.68.2 porque en la 0.69 no funciona el plugin react-native-sqlite-storage
 
 ## CLI
 Opciones:  
