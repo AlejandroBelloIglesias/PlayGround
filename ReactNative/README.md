@@ -36,15 +36,15 @@ npx react-native start
 ```
 
 ## Crear unsigned debug.apk
-[link](https://gist.github.com/erickhaendel/0ec3eb90eddac3e9ae6eb9ca40559050)
+[link](https://gist.github.com/erickhaendel/0ec3eb90eddac3e9ae6eb9ca40559050)  
 
 ## Guías para el desarrollo
-[Hello World](https://reactnative.dev/docs/tutorial)
-[Style](https://reactnative.dev/docs/style)
-[Flexbox layout](https://reactnative.dev/docs/flexbox)
-[ReactNative components and APIS](https://reactnative.dev/docs/components-and-apis)
-[Navigation - Routing](https://reactnative.dev/docs/navigation)
-[Networking - Fetching from API](https://reactnative.dev/docs/network)
+[Hello World](https://reactnative.dev/docs/tutorial)  
+[Style](https://reactnative.dev/docs/style)  
+[Flexbox layout](https://reactnative.dev/docs/flexbox)  
+[ReactNative components and APIS](https://reactnative.dev/docs/components-and-apis)  
+[Navigation - Routing](https://reactnative.dev/docs/navigation)  
+[Networking - Fetching from API](https://reactnative.dev/docs/network)  
 
 
 
